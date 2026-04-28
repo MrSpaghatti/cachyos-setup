@@ -1,0 +1,30 @@
+# One-liner for CachyOS setup:
+# curl -s https://raw.githubusercontent.com/MrSpaghatti/cachyos-setup/main/quick_setup.sh | bash
+
+# Or download and run:
+# wget -q https://raw.githubusercontent.com/MrSpaghatti/cachyos-setup/main/quick_setup.sh && bash quick_setup.sh
+
+echo "CachyOS Bootstrap Setup"
+echo "======================="
+echo ""
+echo "To set up your system with R9700 inference capabilities:"
+echo ""
+echo "Option 1: One-liner (run from CachyOS live environment or after install):"
+echo "  curl -s https://raw.githubusercontent.com/MrSpaghatti/cachyos-setup/main/quick_setup.sh | bash"
+echo ""
+echo "Option 2: Download and run:"
+echo "  wget -q https://raw.githubusercontent.com/MrSpaghatti/cachyos-setup/main/quick_setup.sh"
+echo "  bash quick_setup.sh"
+echo ""
+echo "Option 3: Manual setup:"
+echo "  git clone https://github.com/MrSpaghatti/cachyos-setup.git"
+echo "  cd cachyos-setup"
+echo "  ./bootstrap.sh"
+echo ""
+echo "Repository: https://github.com/MrSpaghatti/cachyos-setup"
+echo ""
+echo "The setup will configure:"
+echo "- ASRock Creator Radeon AI PRO R9700 for AI/ML inference"
+echo "- Development environment (Docker, Python, Rust, Go, Node.js)"
+echo "- Shell configuration (Zsh, Oh My Zsh)"
+echo "- System optimization for your hardware"
