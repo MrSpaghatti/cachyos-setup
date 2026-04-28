@@ -1,0 +1,77 @@
+# CachyOS Setup Instructions
+
+## After Installation
+
+1. **Install CachyOS** using the graphical installer from the USB stick
+2. **Reboot** into your new CachyOS installation
+3. **Download the bootstrap scripts**:
+
+```bash
+# Clone the setup repository
+git clone https://github.com/yourusername/cachyos-setup.git ~/cachyos-setup
+cd ~/cachyos-setup
+
+# Make scripts executable
+chmod +x *.sh
+
+# Run the bootstrap script
+./bootstrap.sh
+```
+
+## Bootstrap Scripts
+
+The bootstrap includes:
+
+### 1. R9700 Inference Setup (`r9700_inference_setup.sh`)
+- Configures ROCm for ASRock Creator Radeon AI PRO R9700
+- Installs AI/ML frameworks (PyTorch, TensorFlow, ONNX)
+- Sets up Python virtual environment for inference
+- Optimizes GPU performance for machine learning
+
+### 2. User Environment Setup (`user_environment_setup.sh`)
+- Installs development tools (git, neovim, zsh, tmux, Docker)
+- Configures shell environment with Oh My Zsh
+- Sets up Python, Rust, Go, Node.js development environments
+- Configures SSH and GPG keys
+
+### 3. Combined Bootstrap (`bootstrap.sh`)
+- Runs both setup scripts with proper error handling
+- Includes user confirmation and logging
+- Handles dependencies and system configuration
+
+## Hardware Configuration
+
+Your system is configured for:
+- **Primary GPU**: Intel Arc Pro B50 (33P6PEB0BB) - for display
+- **Inference GPU**: ASRock Creator Radeon AI PRO R9700 - for AI/ML
+- **CPU**: AMD Ryzen 5 7600X
+- **Motherboard**: Asus ProArt X870E-CREATOR WIFI
+- **Memory**: Corsair Vengeance 32GB DDR5-6000 CL36
+
+## Notes
+
+- The R9700 requires ROCm configuration for optimal performance
+- Both GPUs will be configured to work together (R9700 for compute, B50 for display)
+- Development environment includes tools for C++, Python, Rust, and web development
+
+## Troubleshooting
+
+If you encounter issues:
+1. Check GPU detection: `rocm-smi`
+2. Verify ROCm installation: `hipcc --version`
+3. Check Python environment: `python -c "import torch; print(torch.cuda.is_available())"`
+
+## Alternative: Manual Setup
+
+If you prefer manual setup, the key packages to install are:
+
+```bash
+# ROCm and AI frameworks
+sudo pacman -S rocm-hip-sdk rocm-ml-sdk python-pytorch-rocm python-tensorflow-rocm
+
+# Development tools
+sudo pacman -S git neovim zsh tmux docker docker-compose base-devel
+
+# Shell configuration
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```

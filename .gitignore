@@ -1,0 +1,9 @@
+# Ignore large ISO files
+*.iso
+
+# Ignore temporary files
+cachyos_mirrors.txt
+
+# Ignore system files
+.DS_Store
+Thumbs.db
