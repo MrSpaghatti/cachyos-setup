@@ -10,7 +10,8 @@ system_update() {
     sudo pacman -S --noconfirm \
         base-devel \
         git \
-        zsh \
+        fish \
+        starship \
         tmux \
         neovim \
         docker \
@@ -29,26 +30,77 @@ system_update() {
 setup_shell() {
     echo "Configuring shell environment..."
     
-    # Install Oh My Zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    # Install fish shell and starship prompt
+    echo "Installing fish shell and starship prompt..."
     
-    # Set Zsh as default shell
-    chsh -s $(which zsh)
+    # Set fish as default shell
+    chsh -s $(which fish)
     
-    # Basic zshrc configuration
-    cat << 'EOF' > ~/.zshrc
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
-plugins=(git docker python rust)
-source $ZSH/oh-my-zsh.sh
+    # Configure fish shell
+    mkdir -p ~/.config/fish
+    cat << 'EOF' > ~/.config/fish/config.fish
+# Fish shell configuration
+set -gx EDITOR nvim
+set -gx VISUAL nvim
 
-# Custom aliases
-alias vim=nvim
-alias k=kubectl
-alias docker-clean='docker system prune -af --volumes'
+# Aliases
+alias vim nvim
+alias k kubectl
+alias docker-clean 'docker system prune -af --volumes'
 
 # Development environment paths
-export PATH=$HOME/.cargo/bin:$HOME/go/bin:$PATH
+fish_add_path ~/.cargo/bin
+fish_add_path ~/go/bin
+
+# Initialize starship prompt
+starship init fish | source
+EOF
+    
+    # Install starship prompt
+    curl -sS https://starship.rs/install.sh | sh -s -- -y
+    
+    # Configure starship
+    mkdir -p ~/.config
+    cat << 'EOF' > ~/.config/starship.toml
+# Starship prompt configuration
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_state\
+$git_status\
+$cmd_duration\
+$line_break\
+$python\
+$rust\
+$golang\
+$nodejs\
+$character"""
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[✗](bold red)"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = false
+
+[git_branch]
+symbol = "🌱 "
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+conflicted = "🏳"
+ahead = "🏎💨"
+behind = "😰"
+diverged = "😵"
+untracked = "🤷"
+stashed = "📦"
+modified = "📝"
+staged = "➕"
+renamed = "👅"
+deleted = "🗑"
 EOF
 }
 
